@@ -22,6 +22,9 @@ func Setup(e *echo.Echo) {
 
 	// Buku
 
+	// Notification
+	e.POST("/create/notification", handler.CreateNotification, middleware.IsAuth)
+
 	// Course
 	e.GET("/course", handler.GetCourseAll, middleware.IsAuth)
 	e.GET("/course/:id", handler.GetCourseById, middleware.IsAuth)
