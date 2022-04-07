@@ -82,3 +82,15 @@ func VerifyEmail(user string, token string, c echo.Context) error {
 		"message": "Email Verification berhasil",
 	})
 }
+
+func ForgotPassword(user models.User, c echo.Context) error {
+	err := database.DB.Model(&user).Where("email = ? AND idpertanyaan = ? AND jawaban = ?", user.Email, user.IdPertanyaan, user.Jawaban).Update("password", user.Password).First(&user).Error
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": "Data tidak ditemukan",
+		})
+	}
+	return c.JSON(http.StatusOK, echo.Map{
+		"message": "Successfully Updated",
+	})
+}

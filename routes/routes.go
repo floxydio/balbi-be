@@ -10,14 +10,17 @@ import (
 func Setup(e *echo.Echo) {
 
 	// Static For Marketplace
-	e.Static("/img/market/", "./upload")
+	e.Static("/img/market/", "./uploads/market")
 	e.Static("/img/user/", "./userimg")
+	e.Static("/img/ads/", "./uploads/ads")
 	e.GET("/", handler.Index)
 
 	// Auth
+
 	e.POST("/register", handler.SignUp)
 	e.POST("/login", handler.SignIn)
-	e.POST("/verify", handler.VerifyEmail)
+	// e.POST("/verify", handler.VerifyEmail)
+	e.POST("/forgot", handler.ForgotPassword)
 	e.PUT("/edit/user/:id", handler.EditProfile, middleware.IsAuth)
 
 	// Buku
@@ -33,7 +36,8 @@ func Setup(e *echo.Echo) {
 	e.POST("/create/course", handler.CreateCourse)
 
 	// Ads
-	e.GET("/ads", handler.GetAdsAll, middleware.IsAuth)
+	e.GET("/get-ads", handler.GetAdsAll, middleware.IsAuth)
+	e.POST("/ads", handler.CreateAds)
 	e.POST("/ads/:id", handler.CountInView)
 
 	// Event

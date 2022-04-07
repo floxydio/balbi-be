@@ -33,3 +33,7 @@ func CountInView(ads models.Ads, param string, c echo.Context) error {
 		"message": "Successfully Count In View",
 	})
 }
+
+func UploadAds(ads models.Ads, c echo.Context) error {
+	return nil
+}

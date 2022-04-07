@@ -5,7 +5,11 @@ import (
 	"balbibe/models"
 	"balbibe/routes"
 	"errors"
+	"log"
 	"net/http"
+	"os"
+
+	"github.com/joho/godotenv"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -45,6 +49,10 @@ func (cv *CustomValidator) Validate(i interface{}) error {
 
 func main() {
 	// Echo instance
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 	e := echo.New()
 	e.Validator = &CustomValidator{validator: validator.New()}
 
@@ -55,5 +63,5 @@ func main() {
 	routes.Setup(e)
 
 	// Start server
-	e.Logger.Fatal(e.Start(":2000"))
+	e.Logger.Fatal(e.Start(os.Getenv("RUN_LOCAL")))
 }
