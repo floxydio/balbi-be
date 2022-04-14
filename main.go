@@ -64,4 +64,5 @@ func main() {
 
 	// Start server
 	e.Logger.Fatal(e.Start(os.Getenv("RUN_LOCAL")))
+
 }

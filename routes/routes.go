@@ -40,8 +40,17 @@ func Setup(e *echo.Echo) {
 	e.POST("/ads", handler.CreateAds)
 	e.POST("/ads/:id", handler.CountInView)
 
+	// ANAK
+	e.POST("/create/anak-kesatu", handler.CreateAnakPertama)
+	e.POST("/create/anak-kedua", handler.CreateAnakKedua)
+	e.POST("/create/anak-ketiga", handler.CreateAnakKetiga)
+	e.GET("/anak/:id", handler.GetAnakById)
+
 	// Event
 	e.GET("/event", handler.GetEventAll)
+
+	// VideoPlace
+	e.GET("/video-place", handler.GetVideoPlaceAll)
 
 	// Konsul
 	e.POST("/create/konsul", handler.CreateKonsul, middleware.IsAuth)

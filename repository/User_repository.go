@@ -20,6 +20,7 @@ func CreateUser(user models.User, c echo.Context) error {
 		})
 	}
 	return c.JSON(http.StatusOK, echo.Map{
+		"status": http.StatusOK,
 		// "data": userModel,
 		"message": "Successfully Created",
 	})
@@ -36,6 +37,7 @@ func LoginUser(username string, user models.User, c echo.Context) error {
 	err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(c.FormValue("password")))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{
+			"status":  http.StatusBadRequest,
 			"message": "Password not match",
 		})
 	}
@@ -48,12 +50,14 @@ func LoginUser(username string, user models.User, c echo.Context) error {
 
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, echo.Map{
-			"message": "Invalid JWT",
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"status":  http.StatusUnauthorized,
+			"message": "User Unauthorized",
 		})
 	}
 	return c.JSON(http.StatusOK, echo.Map{
-		"message": "Successfully Sign In",
+		"status":  http.StatusOK,
+		"message": "Successfully Login",
 		"token":   t,
 		"data":    user,
 	})
