@@ -20,6 +20,14 @@ func GetCourseById(c echo.Context) error {
 	return repository.FindCourseByID(course, id, c)
 }
 
+func AddReviewById(c echo.Context) error {
+	review := models.ReviewParenting{}
+	if err := c.Bind(&review); err != nil {
+		return err
+	}
+	return repository.AddReviewById(review, c)
+}
+
 func CreateCourse(c echo.Context) error {
 	var courseModel models.Course
 

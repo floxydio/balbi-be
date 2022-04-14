@@ -31,6 +31,7 @@ func Setup(e *echo.Echo) {
 	// Course
 	e.GET("/course", handler.GetCourseAll, middleware.IsAuth)
 	e.GET("/course/:id", handler.GetCourseById, middleware.IsAuth)
+	e.POST("/review/course", handler.AddReviewById)
 	e.GET("/history-transaction/:id", handler.GetHistoryTransaction, middleware.IsAuth)
 	e.PUT("/history-transaction/edit/:id/history/:idhistory", handler.EditHistoryTransaction)
 	e.POST("/create/course", handler.CreateCourse)

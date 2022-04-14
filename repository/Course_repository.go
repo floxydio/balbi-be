@@ -19,7 +19,8 @@ func GetAllCourse(course []models.Course, c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, echo.Map{
-		"message": 200,
+		"status":  http.StatusOK,
+		"message": "Sukses Get Course",
 		"data":    &course,
 	})
 }
@@ -38,6 +39,21 @@ func FindCourseByID(course []models.Course, id string, c echo.Context) error {
 	})
 }
 
+func AddReviewById(review models.ReviewParenting, c echo.Context) error {
+	err := database.DB.Create(&review).Error
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, echo.Map{
+			"message": err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusCreated, echo.Map{
+		"status":  201,
+		"message": "Successfully Add your Review",
+		"data":    &review,
+	})
+}
+
 func AddCourse(course models.Course, c echo.Context) error {
 	err := database.DB.Create(&course).Error
 	if err != nil {
@@ -46,7 +62,7 @@ func AddCourse(course models.Course, c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, echo.Map{
+	return c.JSON(http.StatusCreated, echo.Map{
 		"message": 200,
 		"data":    &course,
 	})
