@@ -9,6 +9,7 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
@@ -71,6 +72,18 @@ func EditProfile(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errRespon)
 	}
 	return repository.EditUserById(idUser, user, c)
+}
+
+func CheckUser(c echo.Context) error {
+	jwtOk := c.FormValue("jwt")
+
+	token, _ := jwt.Parse(jwtOk, func(token *jwt.Token) (interface{}, error) {
+		return []byte("secret"), nil
+	})
+	return c.JSON(http.StatusOK, echo.Map{
+		"data":  token.Claims,
+		"token": token.Valid,
+	})
 }
 
 func VerifyEmail(c echo.Context) error {

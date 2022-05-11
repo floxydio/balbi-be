@@ -15,7 +15,7 @@ func Connect() {
 	connectDB := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
 	db, err := gorm.Open(mysql.Open(connectDB), &gorm.Config{})
 	if err != nil {
-		fmt.Println("CEK")
+		fmt.Println("Not Connected")
 	} else {
 		fmt.Println("Connected")
 	}
@@ -23,9 +23,9 @@ func Connect() {
 	DB = db
 
 	// Migrate model to DB
-	db.AutoMigrate(models.VideoPlace{})
-	db.AutoMigrate(models.ReviewParenting{})
-	db.AutoMigrate(models.AnakPertanyaan{})
+	// db.AutoMigrate(models.VideoPlace{})
+	// db.AutoMigrate(models.ReviewParenting{})
+	// db.AutoMigrate(models.AnakPertanyaan{})
 	// db.AutoMigrate(models.DaftarAnak{})
 	// db.AutoMigrate(models.DaftarAnakKedua{})
 	// db.AutoMigrate(models.DaftarAnakKetiga{})
@@ -37,4 +37,6 @@ func Connect() {
 	// db.AutoMigrate(models.Ads{})
 	// db.AutoMigrate(models.Course{})
 	// db.AutoMigrate(models.TransactionBook{})
+	db.AutoMigrate(models.Article{})
+
 }

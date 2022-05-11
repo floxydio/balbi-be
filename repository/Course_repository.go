@@ -63,8 +63,8 @@ func AddCourse(course models.Course, c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, echo.Map{
-		"message": 200,
-		"data":    &course,
+		"status": http.StatusCreated,
+		"data":   &course,
 	})
 }
 

@@ -16,12 +16,29 @@ func CreateUser(user models.User, c echo.Context) error {
 	err := database.DB.Create(&user).Error
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{
+			"status": http.StatusBadRequest,
+
 			"message": err.Error(),
 		})
 	}
+	token := jwt.New(jwt.SigningMethodHS256)
+
+	claims := token.Claims.(jwt.MapClaims)
+
+	claims["email"] = user.Email
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
+
+	t, err := token.SignedString([]byte("secret"))
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, echo.Map{
+			"status":  http.StatusUnauthorized,
+			"message": "User Unauthorized",
+		})
+	}
 	return c.JSON(http.StatusOK, echo.Map{
-		"status": http.StatusOK,
-		// "data": userModel,
+		"status":  http.StatusOK,
+		"data":    user,
+		"token":   t,
 		"message": "Successfully Created",
 	})
 }
@@ -31,6 +48,7 @@ func LoginUser(username string, user models.User, c echo.Context) error {
 
 	if errs != nil {
 		return c.JSON(http.StatusBadRequest, echo.Map{
+			"status":  http.StatusBadRequest,
 			"message": errs.Error(),
 		})
 	}
@@ -46,7 +64,7 @@ func LoginUser(username string, user models.User, c echo.Context) error {
 	claims := token.Claims.(jwt.MapClaims)
 
 	claims["email"] = user.Email
-	claims["exp"] = time.Now().Add(time.Minute * 10080).Unix()
+	claims["exp"] = time.Now().Add(time.Minute * 10).Unix()
 
 	t, err := token.SignedString([]byte("secret"))
 	if err != nil {
