@@ -75,4 +75,7 @@ func Setup(e *echo.Echo) {
 	// Konsul
 	e.POST("/create/konsul", handler.CreateKonsul, middleware.IsAuth)
 
+	// Community
+	// e.GET("/list-community", handler)
+
 }

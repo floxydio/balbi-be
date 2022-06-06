@@ -11,8 +11,6 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/newrelic/go-agent/v3/integrations/nrecho-v4"
-	"github.com/newrelic/go-agent/v3/newrelic"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
@@ -56,11 +54,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	app, err := newrelic.NewApplication(
-		newrelic.ConfigAppName("Balbi"),
-		newrelic.ConfigLicense("437cc16eaee382f3953f41966ad3cef9401dNRAL"),
-		newrelic.ConfigDistributedTracerEnabled(true),
-	)
+
 	if nil != err {
 		fmt.Println(err)
 		// os.Exit(1)
@@ -68,7 +62,6 @@ func main() {
 
 	e := echo.New()
 	e.Validator = &CustomValidator{validator: validator.New()}
-	e.Use(nrecho.Middleware(app))
 	database.Connect()
 	// Middleware
 	e.Use(middleware.Recover())
