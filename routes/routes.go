@@ -19,10 +19,10 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 }
 
 func Setup(e *echo.Echo) {
-	t := &Template{
-		templates: template.Must(template.ParseGlob("postarticle/*.html")),
-	}
-	e.Renderer = t
+	// t := &Template{
+	// 	templates: template.Must(template.ParseGlob("postarticle/*.html")),
+	// }
+	// e.Renderer = t
 	// Static For Marketplace
 	e.Static("/img/market/", "./uploads/market")
 	e.Static("/img/user/", "./uploads/userimg")
@@ -76,6 +76,7 @@ func Setup(e *echo.Echo) {
 	e.POST("/create/konsul", handler.CreateKonsul, middleware.IsAuth)
 
 	// Community
-	// e.GET("/list-community", handler)
+	e.GET("/community", handler.GetAllKomunitas)
+	e.GET("/community/post/:id", handler.GetAllPostById)
 
 }
